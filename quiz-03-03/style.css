@@ -1,0 +1,20 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+}
+html { background-color: #7af; }
+body {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	box-sizing: border-box;
+}
+*[readonly=true] { opacity: 30%; }
+#message { width: 100%; }
+#star-buttons {
+	display: flex;
+	width: 300px;
+	justify-content: space-between;
+}
