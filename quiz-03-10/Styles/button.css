@@ -25,9 +25,13 @@ button:after, a.button:after {
 button:enabled:hover:after, a.button:hover:after {
 	background-color: var(--accent-color-transparent-1);
 }
-button:enabled:active, a.button:active {
-	color: var(--font-color-opposite);
-}
 button:enabled:active:after, a.button:active:after {
 	background-color: var(--accent-color-transparent-2);
+}
+button > svg, a.button > svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	aspect-ratio: 1;
+	fill: currentColor;
 }
