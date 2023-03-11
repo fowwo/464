@@ -1,0 +1,21 @@
+:root {
+	--accent-color: red;
+	--accent-color-transparent-1: #f002;
+	--accent-color-transparent-2: #f004;
+}
+.light {
+	--background-1: #eee;
+	--background-2: #ddd;
+	--background-3: #bbb;
+	--background-4: #999;
+	--font-color: black;
+	--font-color-opposite: white;
+}
+.dark {
+	--background-1: #222;
+	--background-2: #333;
+	--background-3: #555;
+	--background-4: #777;
+	--font-color: white;
+	--font-color-opposite: black;
+}

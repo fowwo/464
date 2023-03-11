@@ -1,0 +1,16 @@
+nav {
+	position: absolute;
+	width: 160px;
+	background-color: var(--background-1);
+}
+nav > button, nav > .button {
+	width: 100%;
+	padding: 10px;
+	text-align: left;
+	border-top: 1px solid var(--background-1);
+	background-color: var(--background-4);
+	border-radius: 0;
+}
+nav > *:nth-child(2n + 1){
+	background-color: var(--background-3);
+}
