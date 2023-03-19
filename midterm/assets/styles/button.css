@@ -33,5 +33,4 @@ button > svg, a.button > svg {
 	width: 100%;
 	height: 100%;
 	aspect-ratio: 1;
-	fill: currentColor;
 }

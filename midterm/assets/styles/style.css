@@ -27,3 +27,6 @@ main {
 	padding: 20px;
 	box-sizing: border-box;
 }
+svg {
+	fill: currentColor;
+}
