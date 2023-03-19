@@ -1,0 +1,7 @@
+*[readonly=true] { opacity: 30%; }
+#message { width: 100%; }
+#star-buttons {
+	display: flex;
+	width: 300px;
+	justify-content: space-between;
+}
