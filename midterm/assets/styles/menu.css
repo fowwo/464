@@ -1,5 +1,6 @@
 nav {
 	position: absolute;
+	z-index: 100;
 	width: 160px;
 	background-color: var(--background-primary);
 }
@@ -7,10 +8,12 @@ nav > button, nav > .button {
 	width: 100%;
 	padding: 10px;
 	text-align: left;
-	border-top: 1px solid var(--background-primary);
+	border: 1px solid var(--background-primary);
+	border-left: none;
 	background-color: var(--background-tertiary);
 	border-radius: 0;
 }
+nav > button:not(:first-child), nav > .button:not(:first-child) { border-top: none; }
 nav > *:nth-child(2n + 1){
 	background-color: var(--background-secondary);
 }
