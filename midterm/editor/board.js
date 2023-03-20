@@ -1,24 +1,101 @@
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
+const words = await fetch("assets/resources/words_alpha.txt")
+	.then(x => x.text())
+	.then(x => new Set(x.trim().toLowerCase().replace(/[\r\n]+/g, "\n").split("\n").filter(x => x.length >= 4)));
 
-let board = null;
+const fragments = new Set(words);
+for (const word of words) {
+	for (let i = 1; i < word.length; i++) {
+		const fragment = word.slice(0, i);
+		if (!words.has(fragment)) fragments.add(fragment);
+	}
+}
 
 // Manual puzzle creation form
 document.getElementById("puzzle-input").onsubmit = (event) => {
 	event.preventDefault();
 
+	let board;
 	const errorMessage = event.target.querySelector("p");
 
 	try {
 		board = parseBoard(event.target.querySelector("textarea").value);
+		displayBoard(board);
+		errorMessage.style.display = "none";
 	} catch (error) {
 		errorMessage.innerText = error;
 		errorMessage.style.display = "";
 		return;
 	}
+
+	const foundWords = solve(board);
+	document.getElementById("word-count").innerText = `${foundWords.length} word${foundWords.length === 1 ? "" : "s"}`;
 	
-	errorMessage.style.display = "none";
-	displayBoard(board);
+	const wordBox = document.getElementById("words");
+	wordBox.innerHTML = "";
+	let length, ul;
+	for (const word of foundWords) {
+		if (word.length !== length) {
+			length = word.length;
+			const h3 = document.createElement("h3");
+			h3.innerText = `${length} letter${length === 1 ? "" : "s"}`;
+			wordBox.appendChild(h3);
+			ul = document.createElement("ul");
+			wordBox.appendChild(ul);
+		}
+		const li = document.createElement("li");
+		li.innerText = word;
+		ul.appendChild(li);
+	}
+
 };
+
+function solve(board) {
+	const foundWords = new Set();
+
+	// Initialize search list with each letter.
+	let list = [];
+	for (let r = 0; r < board.length; r++) {
+		for (let c = 0; c < board[0].length; c++) {
+			if (alphabet.includes(board[r][c])) list.push([ board[r][c], [ `${r},${c}` ] ]);
+		}
+	}
+
+	// Perform breadth-first search to find all words.
+	while (list.length > 0) {
+		const next = [];
+		for (const [ word, path ] of list) {
+			const [ r, c ] = path.at(-1).split(",").map(x => parseInt(x));
+			for (let i = -1; i <= 1; i++) {
+				for (let j = -1; j <= 1; j++) {
+					if (!i && !j) continue;
+					const [ pr, pc ] = [ r + i, c + j ];
+					if (pr >= 0 && pr < board.length && pc >= 0 && pc < board[0].length && alphabet.includes(board[pr][pc]) && !path.includes(`${pr},${pc}`)) {
+						const newWord = word + board[pr][pc];
+						if (!fragments.has(newWord)) continue;
+
+						const newPath = path.slice();
+						newPath.push(`${pr},${pc}`);
+						next.push([ newWord, newPath ]);
+						if (words.has(newWord)) {
+							foundWords.add(newWord);
+						}
+					}
+				}
+			}
+		}
+		list = next;
+	}
+
+	// Sort by word length and then by alphabetic order.
+	return Array.from(foundWords).sort((a, b) => {
+		if (a.length < b.length) return -1;
+		else if (a.length > b.length) return 1;
+		else if (a < b) return -1;
+		else if (a > b) return 1;
+		return 0;
+	});
+}
 
 function parseBoard(string) {
 	const board = string.toLowerCase()

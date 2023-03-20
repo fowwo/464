@@ -13,6 +13,15 @@ aside {
 	overflow-y: auto;
 	background-color: var(--background-secondary);
 }
+#words > ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#words > h3 { margin: 32px 0 8px 0; }
 #puzzle-input > * { width: 100%; }
 #puzzle-input > textarea {
 	height: 100px;
