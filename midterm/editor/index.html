@@ -2,7 +2,6 @@
 <html lang="en" class="dark">
 <head>
 	<title>Editor | Squaredle Maker</title>
-	<!-- Page-specific assets -->
 	<base href="..">
 	<!-- General assets -->
 	<link rel="stylesheet" href="assets/styles/style.css">
@@ -10,6 +9,9 @@
 	<link rel="stylesheet" href="assets/styles/button.css">
 	<link rel="stylesheet" href="assets/styles/menu.css">
 	<script src="assets/scripts/header.js" defer></script>
+	<!-- Page-specific assets -->
+	<link rel="stylesheet" href="editor/style.css">
+	<script src="editor/board.js" type="module"></script>
 </head>
 <body>
 	<header>
@@ -26,7 +28,15 @@
 		<a class="button" href="feedback">Feedback</a>
 	</nav>
 	<main>
-
+		<aside></aside>
+		<div id="game">
+			<header>
+				<span id="word-count"></span>
+			</header>
+			<div id="board-container">
+				<div id="board"></div>
+			</div>
+		</div>
 	</main>
 </body>
 </html>

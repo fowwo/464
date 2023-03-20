@@ -9,16 +9,16 @@ body {
 	font-family: Calibri, sans-serif;
 	color: var(--font-color);
 }
-header {
+body > header {
 	display: flex;
 	align-items: center;
 	height: 50px;
 	background-color: var(--accent-color);
 }
-header button, header .button {
+body > header button, body > header .button {
 	border-radius: 0;
 }
-header button:active, header .button:active {
+body > header button:active, body > header .button:active {
 	background-color: #0004;
 }
 main {
@@ -26,6 +26,7 @@ main {
 	flex-direction: column;
 	padding: 20px;
 	box-sizing: border-box;
+	height: calc(100vh - 50px);
 }
 svg {
 	display: block;
