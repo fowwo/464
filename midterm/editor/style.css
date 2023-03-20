@@ -38,8 +38,8 @@ aside {
 #board > div:not(:empty) {
 	display: flex;
 	justify-content: center;
-	background-color: #444;
+	background-color: var(--background-secondary);
 	border-radius: 10%;
-	border: 3px solid #888;
+	border: 3px solid var(--background-tertiary);
 	user-select: none;
 }

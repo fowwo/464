@@ -4,18 +4,16 @@
 	--accent-color-transparent-2: #f004;
 }
 .light {
-	--background-1: #eee;
-	--background-2: #ddd;
-	--background-3: #bbb;
-	--background-4: #999;
+	--background-primary: #eee;
+	--background-secondary: #bbb;
+	--background-tertiary: #999;
 	--font-color: black;
 	--font-color-opposite: white;
 }
 .dark {
-	--background-1: #222;
-	--background-2: #333;
-	--background-3: #555;
-	--background-4: #777;
+	--background-primary: #222;
+	--background-secondary: #555;
+	--background-tertiary: #777;
 	--font-color: white;
 	--font-color-opposite: black;
 }
