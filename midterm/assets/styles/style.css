@@ -28,5 +28,6 @@ main {
 	box-sizing: border-box;
 }
 svg {
+	display: block;
 	fill: currentColor;
 }
