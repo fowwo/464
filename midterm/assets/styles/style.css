@@ -29,6 +29,18 @@ main {
 	box-sizing: border-box;
 	height: calc(100vh - 50px);
 }
+input, textarea {
+	box-sizing: border-box;
+	padding: 5px;
+	background-color: var(--background-secondary);
+	color: inherit;
+	border: 1px solid var(--background-tertiary);
+	border-radius: 2px;
+}
+textarea {
+	height: 100px;
+	resize: vertical;
+}
 svg {
 	display: block;
 	fill: currentColor;

@@ -11,6 +11,12 @@ aside {
 	width: 15%;
 	min-width: 150px;
 	overflow-y: auto;
+	background-color: var(--background-secondary);
+}
+#puzzle-input > * { width: 100%; }
+#puzzle-input > textarea {
+	height: 100px;
+	background-color: var(--background-primary);
 }
 #game {
 	flex-grow: 1;
