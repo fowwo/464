@@ -16,6 +16,7 @@ body > header {
 	background-color: var(--accent-color);
 }
 body > header button, body > header .button {
+	height: 100%;
 	border-radius: 0;
 }
 body > header button:active, body > header .button:active {
