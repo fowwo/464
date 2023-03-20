@@ -28,7 +28,17 @@
 		<a class="button" href="feedback">Feedback</a>
 	</nav>
 	<main>
-		<aside></aside>
+		<aside>
+			<p>
+				Input the letters to the puzzle below, separating each row by line or with a forward slash ('/').
+				Use a period ('.') to create an empty cell.
+			</p>
+			<form id="puzzle-input">
+				<textarea></textarea>
+				<button>Submit</button>
+				<p style="display: none"></p>
+			</form>
+		</aside>
 		<div id="game">
 			<header>
 				<span id="word-count"></span>
