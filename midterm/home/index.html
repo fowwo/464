@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-	<title>Editor | Squaredle Maker</title>
+	<title>Home | Squaredle Maker</title>
 	<base href="..">
-	<!-- General assets -->
 	<link rel="stylesheet" href="assets/styles/style.css">
 	<link rel="stylesheet" href="assets/styles/theme.css">
 	<link rel="stylesheet" href="assets/styles/button.css">
 	<link rel="stylesheet" href="assets/styles/menu.css">
 	<script src="assets/scripts/header.js" defer></script>
-	<!-- Page-specific assets -->
-	<link rel="stylesheet" href="editor/style.css">
-	<script src="editor/board.js" type="module"></script>
 </head>
 <body>
 	<header>
@@ -28,27 +24,21 @@
 		<a class="button" href="feedback">Feedback</a>
 	</nav>
 	<main>
-		<aside>
-			<p>
-				Input the letters to the puzzle below, separating each row by line or with a forward slash ('/').
-				Use a period ('.') to create an empty cell.
-			</p>
-			<form id="puzzle-input">
-				<textarea></textarea>
-				<button>Submit</button>
-				<p style="display: none"></p>
-			</form>
-			<hr>
-			<div id="words"></div>
-		</aside>
-		<div id="game">
-			<header>
-				<span id="word-count"></span>
-			</header>
-			<div id="board-container">
-				<div id="board"></div>
-			</div>
-		</div>
+		<h2>Squaredle &amp; Boggle Maker</h2>
+		<p>
+			This website is made to create and solve <a href="https://squaredle.app/">Squaredle</a> and <a href="https://en.wikipedia.org/wiki/Boggle">Boggle</a> puzzles.
+			Currently, this functionality is not included but is planned for the next quiz/release.
+		</p>
+		<p>
+			To create a puzzle, you will be able to type in a list of words to be included.
+			The words given will be arranged into a grid in the style of Squaredle and Boggle.
+			Using this generated puzzle, you will also be able to share the puzzle with others for them to play.
+		</p>
+		<p>
+			To solve a puzzle, you will be able to submit the grid of characters.
+			A script will look through a dictionary of English words to find all words in the puzzle.
+			The found words will be categorized by word length and sorted alphabetically.
+		</p>
 	</main>
 </body>
 </html>
