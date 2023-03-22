@@ -3,9 +3,6 @@ main {
 	flex-direction: row;
 	overflow: hidden;
 }
-svg {
-	width: 65%;
-}
 aside {
 	padding: 20px;
 	flex-shrink: 0;
@@ -50,7 +47,6 @@ aside {
 	box-sizing: border-box;
 	max-width: calc(100% - 2 * var(--header-height));
 	max-height: calc(100% - var(--header-height));
-	font-size: 1px;
 }
 #board > div:not(:empty) {
 	display: flex;

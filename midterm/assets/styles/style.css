@@ -7,7 +7,7 @@ html, body {
 html { background-color: var(--background-primary); }
 body {
 	font-family: Calibri, sans-serif;
-	color: var(--font-color);
+	color: var(--font-primary);
 }
 body > header {
 	display: flex;

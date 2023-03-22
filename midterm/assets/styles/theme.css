@@ -7,13 +7,13 @@
 	--background-primary: #eee;
 	--background-secondary: #bbb;
 	--background-tertiary: #999;
-	--font-color: black;
-	--font-color-opposite: white;
+	--font-primary: black;
+	--font-secondary: #555;
 }
 .dark {
 	--background-primary: #222;
 	--background-secondary: #555;
 	--background-tertiary: #777;
-	--font-color: white;
-	--font-color-opposite: black;
+	--font-primary: white;
+	--font-secondary: #aaa;
 }

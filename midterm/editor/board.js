@@ -18,9 +18,9 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 	let board;
 	const errorMessage = event.target.querySelector("p");
 
+	// Parse board
 	try {
 		board = parseBoard(event.target.querySelector("textarea").value);
-		displayBoard(board);
 		errorMessage.style.display = "none";
 	} catch (error) {
 		errorMessage.innerText = error;
@@ -28,13 +28,35 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 		return;
 	}
 
-	const foundWords = solve(board);
-	document.getElementById("word-count").innerText = `${foundWords.length} word${foundWords.length === 1 ? "" : "s"}`;
+	// Sort by word length and then by alphabetic order.
+	const solution = Object.entries(solve(board)).sort(([a], [b]) => {
+		if (a.length < b.length) return -1;
+		else if (a.length > b.length) return 1;
+		else if (a < b) return -1;
+		else if (a > b) return 1;
+		return 0;
+	});
+
+	// Find letter counts.
+	const totalCount = Array(board.length).fill().map(() => Array(board[0].length).fill(0));
+	const startCount = Array(board.length).fill().map(() => Array(board[0].length).fill(0));
+	for (const [ word, path ] of solution) {
+		const [ r, c ] = path[0].split(",").map(x => parseInt(x));
+		totalCount[r][c]++;
+		startCount[r][c]++;
+		for (let i = 1; i < path.length; i++) {
+			const [ r, c ] = path[i].split(",").map(x => parseInt(x));
+			totalCount[r][c]++;
+		}
+	}
+	displayBoard(board, totalCount, startCount);
+
+	document.getElementById("word-count").innerText = `${solution.length} word${solution.length === 1 ? "" : "s"}`;
 	
 	const wordBox = document.getElementById("words");
 	wordBox.innerHTML = "";
 	let length, ul;
-	for (const word of foundWords) {
+	for (const [ word, path ] of solution) {
 		if (word.length !== length) {
 			length = word.length;
 			const h3 = document.createElement("h3");
@@ -51,7 +73,6 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 };
 
 function solve(board) {
-	const foundWords = new Set();
 
 	// Initialize search list with each letter.
 	let list = [];
@@ -62,6 +83,7 @@ function solve(board) {
 	}
 
 	// Perform breadth-first search to find all words.
+	const foundWords = {};
 	while (list.length > 0) {
 		const next = [];
 		for (const [ word, path ] of list) {
@@ -77,8 +99,8 @@ function solve(board) {
 						const newPath = path.slice();
 						newPath.push(`${pr},${pc}`);
 						next.push([ newWord, newPath ]);
-						if (words.has(newWord)) {
-							foundWords.add(newWord);
+						if (words.has(newWord) && !(newWord in foundWords)) {
+							foundWords[newWord] = newPath;
 						}
 					}
 				}
@@ -87,14 +109,7 @@ function solve(board) {
 		list = next;
 	}
 
-	// Sort by word length and then by alphabetic order.
-	return Array.from(foundWords).sort((a, b) => {
-		if (a.length < b.length) return -1;
-		else if (a.length > b.length) return 1;
-		else if (a < b) return -1;
-		else if (a > b) return 1;
-		return 0;
-	});
+	return foundWords;
 }
 
 function parseBoard(string) {
@@ -117,31 +132,53 @@ function parseBoard(string) {
 	return board;
 }
 
-function displayBoard(board) {
+function displayBoard(board, totalCount, startCount) {
 	const boardElement = document.getElementById("board");
 	boardElement.innerHTML = "";
 	boardElement.style.aspectRatio = `${board[0].length} / ${board.length}`
 	boardElement.style.gridTemplateRows = `repeat(${board.length}, 1fr)`;
 	boardElement.style.gridTemplateColumns = `repeat(${board[0].length}, 1fr)`;
-	for (const row of board) {
-		for (const letter of row) {
-			const td = document.createElement("div");
-			boardElement.appendChild(td);
-			if (!alphabet.includes(letter)) continue;
+	for (let r = 0; r < board.length; r++) {
+		for (let c = 0; c < board[0].length; c++) {
+			const cell = document.createElement("div");
+			boardElement.appendChild(cell);
+			if (!alphabet.includes(board[r][c])) continue;
 
 			const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			const letter = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
 			svg.setAttribute("viewBox", "0 0 1 1");
-			svg.appendChild(text);
 
-			text.innerHTML = letter.toUpperCase();
-			text.setAttribute("x", "50%");
-			text.setAttribute("y", "50%");
-			text.setAttribute("text-anchor", "middle");
-			text.setAttribute("dominant-baseline", "central");
+			letter.innerHTML = board[r][c].toUpperCase();
+			letter.setAttribute("x", "50%");
+			letter.setAttribute("y", "50%");
+			letter.setAttribute("transform", "translate(0 -0.025)");
+			letter.setAttribute("font-size", "0.75");
+			letter.setAttribute("text-anchor", "middle");
+			letter.setAttribute("dominant-baseline", "central");
+			svg.appendChild(letter);
 
-			td.appendChild(svg);
+			if (totalCount[r][c]) {
+				const start = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
+				start.innerHTML = startCount[r][c];
+				start.setAttribute("x", "5%");
+				start.setAttribute("y", "95%");
+				start.setAttribute("font-size", "0.25");
+				start.setAttribute("color", "var(--accent-color)");
+				svg.appendChild(start);
+
+				total.innerHTML = totalCount[r][c];
+				total.setAttribute("x", "95%");
+				total.setAttribute("y", "95%");
+				total.setAttribute("font-size", "0.25");
+				total.setAttribute("text-anchor", "end");
+				total.setAttribute("color", "var(--font-secondary)");
+				svg.appendChild(total);
+			}
+
+			cell.appendChild(svg);
 		}
 	}
 }
