@@ -185,3 +185,57 @@ function displayBoard(board, totalCount, startCount) {
 		}
 	}
 }
+
+function generateBoards(words, width, height) {
+	let list = [ Array(height).fill().map(() => Array(width).fill(".")) ];
+	for (const word of words) {
+		const next = [];
+		for (const board of list) {
+			for (const newBoard of addWordToBoard(word, board)) {
+				next.push(newBoard);
+			}
+		}
+		list = next;
+	}
+	return list;
+}
+
+function addWordToBoard(word, board) {
+	const clone = (x) => { return Array(x.length).fill().map((_, i) => x[i].slice()); };
+
+	// Find all starting positions
+	let list = [];
+	for (const [ r, row ] of board.entries()) {
+		for (const [ c, letter ] of row.entries()) {
+			if ([ word[0], "." ].includes(letter)) {
+				const copy = clone(board);
+				copy[r][c] = word[0];
+				list.push([ copy, [ r, c ], new Set([ `${r},${c}` ]) ]);
+			}
+		}
+	}
+
+	// Perform breadth-first search to find possible word arrangements.
+	// TODO: Optimize. (Prevent mirrored/rotated copies?)
+	for (const letter of word.slice(1)) {
+		let next = [];
+		for (const [ board, [ r, c ], path ] of list) {
+			for (let i = -1; i <= 1; i++) {
+				for (let j = -1; j <= 1; j++) {
+					if (!i && !j) continue;
+					const [ pr, pc ] = [ r + i, c + j ];
+					if (pr >= 0 && pr < board.length && pc >= 0 && pc < board[0].length && !path.has(`${pr},${pc}`) && [ letter, "." ].includes(board[pr][pc])) {
+						const copy = clone(board);
+						const newPath = new Set(path);
+						copy[pr][pc] = letter;
+						newPath.add(`${pr},${pc}`);
+						next.push([ copy, [ pr, pc ], newPath ]);
+					}
+				}
+			}
+		}
+		list = next;
+	}
+
+	return list.map(x => x[0]);
+}
