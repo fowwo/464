@@ -158,17 +158,18 @@ function displayBoard(board, totalCount, startCount) {
 			letter.setAttribute("dominant-baseline", "central");
 			svg.appendChild(letter);
 
-			if (totalCount[r][c]) {
+			if (startCount[r][c]) {
 				const start = document.createElementNS("http://www.w3.org/2000/svg", "text");
-				const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
-
 				start.innerHTML = startCount[r][c];
 				start.setAttribute("x", "5%");
 				start.setAttribute("y", "95%");
 				start.setAttribute("font-size", "0.25");
 				start.setAttribute("color", "var(--accent-color)");
 				svg.appendChild(start);
+			}
 
+			if (totalCount[r][c]) {
+				const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
 				total.innerHTML = totalCount[r][c];
 				total.setAttribute("x", "95%");
 				total.setAttribute("y", "95%");
@@ -176,6 +177,8 @@ function displayBoard(board, totalCount, startCount) {
 				total.setAttribute("text-anchor", "end");
 				total.setAttribute("color", "var(--font-secondary)");
 				svg.appendChild(total);
+			} else {
+				cell.style.opacity = 0.2;
 			}
 
 			cell.appendChild(svg);
