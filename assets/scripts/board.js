@@ -101,20 +101,17 @@ export function solve(board) {
 		const next = [];
 		for (const [ word, path ] of list) {
 			const [ r, c ] = path.at(-1).split(",").map(x => parseInt(x));
-			for (let i = -1; i <= 1; i++) {
-				for (let j = -1; j <= 1; j++) {
-					if (!i && !j) continue;
-					const [ pr, pc ] = [ r + i, c + j ];
-					if (pr >= 0 && pr < board.length && pc >= 0 && pc < board[0].length && alphabet.includes(board[pr][pc]) && !path.includes(`${pr},${pc}`)) {
-						const newWord = word + board[pr][pc];
-						if (!fragments.has(newWord)) continue;
+			const surrPaths = getSurroundingCoordinates(r, c, board);
+			for (const [ pr, pc ] of surrPaths) {
+				if (!path.includes(`${pr},${pc}`)) {
+					const newWord = word + board[pr][pc];
+					if (!fragments.has(newWord)) continue;
 
-						const newPath = path.slice();
-						newPath.push(`${pr},${pc}`);
-						next.push([ newWord, newPath ]);
-						if (words.has(newWord) && !(newWord in foundWords)) {
-							foundWords[newWord] = newPath;
-						}
+					const newPath = path.slice();
+					newPath.push(`${pr},${pc}`);
+					next.push([ newWord, newPath ]);
+					if (words.has(newWord) && !(newWord in foundWords)) {
+						foundWords[newWord] = newPath;
 					}
 				}
 			}
@@ -123,4 +120,18 @@ export function solve(board) {
 	}
 
 	return foundWords;
+}
+
+function getSurroundingCoordinates(r, c, board) {
+	const list = [];
+	for (let i = -1; i <= 1; i++) {
+		for (let j = -1; j <= 1; j++) {
+			if (!i && !j) continue;
+			const [ pr, pc ] = [ r + i, c + j ];
+			if (pr >= 0 && pr < board.length && pc >= 0 && pc < board[0].length && alphabet.includes(board[pr][pc])) {
+				list.push([ pr, pc ]);
+			}
+		}
+	}
+	return list;
 }
