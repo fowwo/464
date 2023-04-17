@@ -1,4 +1,4 @@
-import { parseBoard, displayBoard, findWordPaths, extendPath, pathString } from "../assets/scripts/board.js";
+import { parseBoard, displayBoard, findWordPaths, extendPath, pathString, drawPath, clearPath  } from "../assets/scripts/board.js";
 
 const board = [];
 
@@ -8,18 +8,40 @@ let pathIndex = 0;
 // Keyboard controls
 document.addEventListener("keydown", (event) => {
 	const key = event.key;
-	if (key.match(/^[A-Za-z]$/)) return addLetter(key);
+	if (key.match(/^[A-Za-z]$/)) {
+		const letterIsAdded = addLetter(key);
+		if (letterIsAdded) {
+			clearPath();
+			drawPath(paths[pathIndex]);
+		}
+		return;
+	}
 
 	switch (key) {
 		case "Backspace":
-			return removeLetter();
+			const letterIsRemoved = removeLetter();
+			if (letterIsRemoved) {
+				clearPath();
+				if (paths.length > 0) drawPath(paths[pathIndex]);
+			}
+			return;
 		case "Shift":
 		case " ":
-			return switchPath();
+			const isNewPath = switchPath();
+			if (isNewPath) {
+				clearPath();
+				drawPath(paths[pathIndex]);
+			}
+			return;
 		case "Escape":
-			return cancelPath();
+			cancelPath();
+			clearPath();
+			return;
 		case "Enter":
 			// TODO: Implement word submission.
+			submitPath();
+			clearPath();
+			return;
 	}
 });
 

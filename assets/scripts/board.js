@@ -11,6 +11,9 @@ for (const word of words) {
 	}
 }
 
+const canvas = document.querySelector("#board-container canvas");
+const ctx = canvas.getContext("2d");
+
 export function parseBoard(string) {
 	const board = string.toLowerCase()
 		.replace(/[\r\n]+/g, "\n") // Remove carriage returns
@@ -32,11 +35,19 @@ export function parseBoard(string) {
 }
 
 export function displayBoard(board, totalCount, startCount) {
+
+	// Reset board
 	const boardElement = document.getElementById("board");
 	boardElement.innerHTML = "";
 	boardElement.style.aspectRatio = `${board[0].length} / ${board.length}`
 	boardElement.style.gridTemplateRows = `repeat(${board.length}, 1fr)`;
 	boardElement.style.gridTemplateColumns = `repeat(${board[0].length}, 1fr)`;
+	
+	// Reset canvas
+	const cellSize = 100;
+	canvas.setAttribute("width", `${board[0].length * cellSize}`);
+	canvas.setAttribute("height", `${board.length * cellSize}`);
+
 	for (let r = 0; r < board.length; r++) {
 		for (let c = 0; c < board[0].length; c++) {
 			const cell = document.createElement("div");
@@ -186,4 +197,25 @@ function getSurroundingCoordinates(r, c, board) {
 		}
 	}
 	return list;
+}
+
+export function clearPath() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+export function drawPath(path) {
+	const toCanvasCoordinates = (r, c) => [ c * 100 + 50, r * 100 + 50 ];
+	const [ r, c ] = path[0];
+	const [ x, y ] = toCanvasCoordinates(r, c);
+	ctx.beginPath();
+	ctx.lineWidth = 40;
+	ctx.lineCap = "round";
+	ctx.lineJoin = "round";
+	ctx.strokeStyle = "#f004";
+	ctx.moveTo(x, y);
+	for (const [ r, c ] of path) {
+		const [ x, y ] = toCanvasCoordinates(r, c);
+		ctx.lineTo(x, y);
+	}
+	ctx.stroke();
 }
