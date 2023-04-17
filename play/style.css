@@ -1,0 +1,58 @@
+main {
+	padding: 0;
+	flex-direction: row;
+	overflow: hidden;
+}
+aside {
+	padding: 20px;
+	flex-shrink: 0;
+	width: 20%;
+	min-width: 150px;
+	overflow-y: auto;
+	background-color: var(--background-secondary);
+}
+#words > ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#words > h3 { margin: 32px 0 8px 0; }
+#puzzle-input > * { width: 100%; }
+#puzzle-input > textarea {
+	height: 100px;
+	background-color: var(--background-primary);
+}
+#puzzle-input > p { color: var(--accent-color); }
+#game {
+	flex-grow: 1;
+	--header-height: 50px;
+}
+#game > header > span {
+	display: block;
+	text-align: center;
+	white-space: nowrap;
+	line-height: var(--header-height);
+	font-size: 36px;
+}
+#board-container {
+	height: calc(100% - var(--header-height));
+}
+#board {
+	display: grid;
+	margin: 0 auto;
+	gap: 5px;
+	box-sizing: border-box;
+	max-width: calc(100% - 2 * var(--header-height));
+	max-height: calc(100% - var(--header-height));
+}
+#board > div:not(:empty) {
+	display: flex;
+	justify-content: center;
+	background-color: var(--background-secondary);
+	border-radius: 10%;
+	border: 3px solid var(--background-tertiary);
+	user-select: none;
+}

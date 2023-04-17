@@ -122,6 +122,58 @@ export function solve(board) {
 	return foundWords;
 }
 
+export function findWordPaths(word, board) {
+	word = word.toLowerCase();
+
+	// Perform breadth-first search to find all word paths.
+	let list = findCharacterCoordinates(word[0], board).map(x => [x]);
+	for (const letter of word.slice(1)) {
+		const next = [];
+		for (const path of list) {
+			next.push(...extendPath(path, letter, board));
+		}
+		list = next;
+	}
+
+	return list;
+}
+
+export function findCharacterCoordinates(letter, board) {
+	letter = letter.toLowerCase();
+
+	const list = [];
+	for (let r = 0; r < board.length; r++) {
+		for (let c = 0; c < board[0].length; c++) {
+			if (board[r][c] === letter) list.push([ r, c ]);
+		}
+	}
+
+	return list;
+}
+
+export function extendPath(path, letter, board) {
+	letter = letter.toLowerCase();
+	if (path.length === 0) return findCharacterCoordinates(letter, board).map(x => [x]);
+
+	const paths = [];
+	const posSet = new Set(path.map(x => x.join(",")));
+	const [ r, c ] = path.at(-1);
+	const surroundingCells = getSurroundingCoordinates(r, c, board);
+	for (const [ pr, pc ] of surroundingCells) {
+		if (board[pr][pc] === letter && !posSet.has(`${pr},${pc}`)) {
+			const newPath = path.slice();
+			newPath.push([ pr, pc ]);
+			paths.push(newPath);
+		}
+	}
+
+	return paths;
+}
+
+export function pathString(path, board) {
+	return path.map(([ r, c ]) => board[r][c]).join("");
+}
+
 function getSurroundingCoordinates(r, c, board) {
 	const list = [];
 	for (let i = -1; i <= 1; i++) {
