@@ -53,6 +53,11 @@ aside {
 #board {
 	display: grid;
 }
+#board-container > canvas {
+	object-fit: contain;
+	object-position: top;
+	width: 100%;
+}
 #board > div:not(:empty) {
 	display: flex;
 	justify-content: center;

@@ -208,7 +208,7 @@ export function drawPath(path) {
 	const [ r, c ] = path[0];
 	const [ x, y ] = toCanvasCoordinates(r, c);
 	ctx.beginPath();
-	ctx.lineWidth = 40;
+	ctx.lineWidth = 30;
 	ctx.lineCap = "round";
 	ctx.lineJoin = "round";
 	ctx.strokeStyle = "#f004";
