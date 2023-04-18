@@ -76,15 +76,19 @@ function addLetter(key) {
 function removeLetter() {
 	if (paths.length === 0) return false;
 	
-	pathIndex = 0; 
 	const path = paths[0].slice(0, -1);
 	if (path.length === 0) {
 		paths = [];
+		pathIndex = 0;
 		return true;
 	}
 
 	const [ r, c ] = path.at(-1);
 	paths = extendPath(path.slice(0, -1), board[r][c], board);
+	pathIndex = paths.findIndex(path => {
+		const [ a, b ] = path.at(-1);
+		return a === r && b === c;
+	});
 	return true;
 }
 
