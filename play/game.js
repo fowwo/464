@@ -11,8 +11,8 @@ document.addEventListener("keydown", (event) => {
 	if (key.match(/^[A-Za-z]$/)) {
 		const letterIsAdded = addLetter(key);
 		if (letterIsAdded) {
-			clearPath();
-			drawPath(paths[pathIndex]);
+			clearPath(context);
+			drawPath(context, paths[pathIndex]);
 		}
 		return;
 	}
@@ -21,26 +21,26 @@ document.addEventListener("keydown", (event) => {
 		case "Backspace":
 			const letterIsRemoved = removeLetter();
 			if (letterIsRemoved) {
-				clearPath();
-				if (paths.length > 0) drawPath(paths[pathIndex]);
+				clearPath(context);
+				if (paths.length > 0) drawPath(context, paths[pathIndex]);
 			}
 			return;
 		case "Shift":
 		case " ":
 			const isNewPath = switchPath();
 			if (isNewPath) {
-				clearPath();
-				drawPath(paths[pathIndex]);
+				clearPath(context);
+				drawPath(context, paths[pathIndex]);
 			}
 			return;
 		case "Escape":
 			cancelPath();
-			clearPath();
+			clearPath(context);
 			return;
 		case "Enter":
 			// TODO: Implement word submission.
 			submitPath();
-			clearPath();
+			clearPath(context);
 			return;
 	}
 });

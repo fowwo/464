@@ -1,4 +1,4 @@
-import { parseBoard, displayBoard, solve } from "../assets/scripts/board.js";
+import { parseBoard, createBoard, solve } from "../assets/scripts/board.js";
 
 // Manual puzzle creation form
 document.getElementById("puzzle-input").onsubmit = (event) => {
@@ -38,7 +38,8 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 			totalCount[r][c]++;
 		}
 	}
-	displayBoard(board, totalCount, startCount);
+	const boardContainer = createBoard(board, totalCount, startCount);
+	document.getElementById("board-container").replaceWith(boardContainer);
 
 	document.getElementById("word-count").innerText = `${solution.length} word${solution.length === 1 ? "" : "s"}`;
 	
