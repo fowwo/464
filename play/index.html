@@ -29,7 +29,16 @@
 	</nav>
 	<main>
 		<aside>
-			<div id="words">a</div>
+			<form id="puzzle-input">
+				<p>
+					Input the letters to the puzzle below, separating each row by line or with a forward slash ('/').
+					Use a period ('.') to create an empty cell.
+				</p>
+				<textarea></textarea>
+				<button>Play</button>
+				<p id="error-message" style="display: none;"></p>
+			</form>
+			<div id="words"></div>
 		</aside>
 		<div id="game">
 			<header>

@@ -66,6 +66,7 @@ export function createBoard(board, totalCount, startCount) {
 			if (startCount?.[r][c]) {
 				const start = document.createElementNS("http://www.w3.org/2000/svg", "text");
 				start.innerHTML = startCount[r][c];
+				start.style.visibility = "var(--start-count-visibility)";
 				start.setAttribute("x", "5%");
 				start.setAttribute("y", "95%");
 				start.setAttribute("font-size", "0.25");
@@ -76,6 +77,7 @@ export function createBoard(board, totalCount, startCount) {
 			if (totalCount?.[r][c]) {
 				const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
 				total.innerHTML = totalCount[r][c];
+				total.style.visibility = "var(--total-count-visibility)";
 				total.setAttribute("x", "95%");
 				total.setAttribute("y", "95%");
 				total.setAttribute("font-size", "0.25");

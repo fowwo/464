@@ -25,7 +25,7 @@ aside {
 	height: 100px;
 	background-color: var(--background-primary);
 }
-#puzzle-input > p { color: var(--accent-color); }
+#puzzle-input > #error-message { color: var(--accent-color); }
 #game {
 	flex-grow: 1;
 	--header-height: 50px;

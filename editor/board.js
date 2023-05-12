@@ -5,7 +5,7 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 	event.preventDefault();
 
 	let board;
-	const errorMessage = event.target.querySelector("p");
+	const errorMessage = event.target.querySelector("#error-message");
 
 	// Parse board
 	try {
