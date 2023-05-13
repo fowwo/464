@@ -50,22 +50,43 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 
 	document.getElementById("word-count").innerText = `0 / ${solution.length} word${solution.length === 1 ? "" : "s"}`;
 	
+	// Display word counts by letter
 	const wordBox = document.getElementById("words");
 	wordBox.innerHTML = "";
 	let length, ul;
+	let count = 0;
 	for (const [ word, path ] of solution) {
 		if (word.length !== length) {
+			if (length) {
+				const remaining = document.createElement("span");
+				remaining.id = `remaining-word-count-${length}`;
+				remaining.style.color = "var(--accent-color)";
+				remaining.innerText = `+${count} word${count === 1 ? "" : "s"}`;
+				count = 0;
+				wordBox.appendChild(remaining);
+			}
 			length = word.length;
+
 			const h3 = document.createElement("h3");
 			h3.innerText = `${length} letter${length === 1 ? "" : "s"}`;
 			wordBox.appendChild(h3);
 			ul = document.createElement("ul");
 			wordBox.appendChild(ul);
 		}
+		
 		const li = document.createElement("li");
+		li.id = `word-list-${word}`;
+		li.style.display = "none";
 		li.innerText = word;
 		ul.appendChild(li);
+		count++;
 	}
+
+	const remaining = document.createElement("span");
+	remaining.id = `remaining-word-count-${length}`;
+	remaining.style.color = "var(--accent-color)";
+	remaining.innerText = `+${count} word${count === 1 ? "" : "s"}`;
+	wordBox.appendChild(remaining);
 };
 
 // Keyboard controls
@@ -103,7 +124,6 @@ document.addEventListener("keydown", (event) => {
 			clearPath(context);
 			return;
 		case "Enter":
-			// TODO: Implement word submission.
 			submitPath();
 			clearPath(context);
 			return;
@@ -170,7 +190,42 @@ function cancelPath() {
 }
 
 function submitPath() {
-	// Check if word in dictionary (or bonus words)
-	// ...
-	return false;
+	if (paths.length === 0) return false;
+
+	const word = paths[pathIndex].map(([ r, c ]) => board[r][c]).join("");
+	cancelPath();
+
+	// Check if the path is a word.
+	const wordElement = document.getElementById(`word-list-${word}`);
+	if (!wordElement) {
+		document.getElementById("response").innerText = "Not a word";
+		return false;
+	}
+
+	// Check if the word is already found.
+	if (wordElement.style.display !== "none") {
+		document.getElementById("response").innerText = "Already found";
+		return false;
+	}
+
+	// A new word is found.
+	wordElement.style.display = "";
+	const count = parseInt(document.getElementById("word-count").innerText.split(" ")[0]) + 1;
+	const total = parseInt(document.getElementById("word-count").innerText.split(" ")[2]);
+	document.getElementById("word-count").innerText = `${count} / ${total} word${total === 1 ? "" : "s"}`;
+
+	const remaining = parseInt(document.getElementById(`remaining-word-count-${word.length}`).innerText.split(" ")[0].slice(1)) - 1;
+	if (remaining) {
+		document.getElementById(`remaining-word-count-${word.length}`).innerText = `+${remaining} word${remaining === 1 ? "" : "s"}`;
+	} else {
+		document.getElementById(`remaining-word-count-${word.length}`).style.display = "none";
+	}
+	document.getElementById("response").innerText = `+${word.length} point${word.length === 1 ? "" : "s"}`;
+
+	document.querySelector("#progress > div").style.width = `${100 * count / total}%`;
+	if (count === total) {
+		// All required words found.
+		document.querySelector("#progress > div").style.backgroundColor = "#0f0";
+	}
+	return true;
 }
