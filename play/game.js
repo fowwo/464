@@ -192,7 +192,8 @@ function cancelPath() {
 function submitPath() {
 	if (paths.length === 0) return false;
 
-	const word = paths[pathIndex].map(([ r, c ]) => board[r][c]).join("");
+	const path = paths[pathIndex];
+	const word = path.map(([ r, c ]) => board[r][c]).join("");
 	cancelPath();
 
 	// Check if the path is a word.
@@ -225,16 +226,36 @@ function submitPath() {
 		document.getElementById(`remaining-word-count-${word.length}`).style.display = "none";
 	}
 
+	// Update letter counts.
+	const boardElement = document.getElementById("board");
+	const getCell = (r, c) => boardElement.children.item(r * board.length + c);
+	const decrementStartCount = (cell) => {
+		const text = cell.firstElementChild.children.item(1);
+		const value = parseInt(text.innerHTML) - 1;
+		text.innerHTML = value > 0 ? value : "";
+	};
+	const decrementTotalCount = (cell) => {
+		console.log(cell);
+		const text = cell.firstElementChild.children.item(2);
+		const value = parseInt(text.innerHTML) - 1;
+		text.innerHTML = value > 0 ? value : "";
+		if (value === 0) cell.style.opacity = 0.2;
+	};
+	decrementStartCount(getCell(...path[0]));
+	for (const [ r, c ] of path) {
+		decrementTotalCount(getCell(r, c));
+	}
+
 	// Reveal letter count hints.
 	if (count === total) {
 		// 100% - All required words found.
 		document.querySelector("#progress > div").style.backgroundColor = "#0f0";
 	} else if (3 * count >= 2 * total) {
 		// 66% - Reveal letter start counts.
-		document.getElementById("board").style.setProperty("--total-count-visibility", "visible");
+		boardElement.style.setProperty("--total-count-visibility", "visible");
 	} else if (3 * count >= total) {
 		// 33% - Reveal letter counts.
-		document.getElementById("board").style.setProperty("--start-count-visibility", "visible");
+		boardElement.style.setProperty("--start-count-visibility", "visible");
 	}
 
 	return true;
