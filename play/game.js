@@ -235,7 +235,6 @@ function submitPath() {
 		text.innerHTML = value > 0 ? value : "";
 	};
 	const decrementTotalCount = (cell) => {
-		console.log(cell);
 		const text = cell.firstElementChild.children.item(2);
 		const value = parseInt(text.innerHTML) - 1;
 		text.innerHTML = value > 0 ? value : "";
