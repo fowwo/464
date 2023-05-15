@@ -4,15 +4,22 @@ let board, context;
 let paths = [];
 let pathIndex = 0;
 
+// Create puzzle from search param if provided.
+const code = new URLSearchParams(window.location.search).get("code");
+if (code !== null) createPuzzle(code);
+
 // Manual puzzle creation form
 document.getElementById("puzzle-input").onsubmit = (event) => {
 	event.preventDefault();
+	createPuzzle(event.target.querySelector("textarea").value);
+};
 
-	const errorMessage = event.target.querySelector("#error-message");
+function createPuzzle(puzzle) {
+	const errorMessage = document.querySelector("#error-message");
 
 	// Parse board
 	try {
-		board = parseBoard(event.target.querySelector("textarea").value);
+		board = parseBoard(puzzle);
 		errorMessage.style.display = "none";
 	} catch (error) {
 		errorMessage.innerText = error;
@@ -87,7 +94,7 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 	remaining.style.color = "var(--accent-color)";
 	remaining.innerText = `+${count} word${count === 1 ? "" : "s"}`;
 	wordBox.appendChild(remaining);
-};
+}
 
 // Keyboard controls
 document.addEventListener("keydown", (event) => {
