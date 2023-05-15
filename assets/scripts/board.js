@@ -63,30 +63,25 @@ export function createBoard(board, totalCount, startCount) {
 			letter.setAttribute("dominant-baseline", "central");
 			svg.appendChild(letter);
 
-			if (startCount?.[r][c]) {
-				const start = document.createElementNS("http://www.w3.org/2000/svg", "text");
-				start.innerHTML = startCount[r][c];
-				start.style.visibility = "var(--start-count-visibility)";
-				start.setAttribute("x", "5%");
-				start.setAttribute("y", "95%");
-				start.setAttribute("font-size", "0.25");
-				start.setAttribute("color", "var(--accent-color)");
-				svg.appendChild(start);
-			}
+			const start = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			start.innerHTML = startCount?.[r][c] ? startCount[r][c] : "";
+			start.style.visibility = "var(--start-count-visibility)";
+			start.setAttribute("x", "5%");
+			start.setAttribute("y", "95%");
+			start.setAttribute("font-size", "0.25");
+			start.setAttribute("color", "var(--accent-color)");
+			svg.appendChild(start);
 
-			if (totalCount?.[r][c]) {
-				const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
-				total.innerHTML = totalCount[r][c];
-				total.style.visibility = "var(--total-count-visibility)";
-				total.setAttribute("x", "95%");
-				total.setAttribute("y", "95%");
-				total.setAttribute("font-size", "0.25");
-				total.setAttribute("text-anchor", "end");
-				total.setAttribute("color", "var(--font-secondary)");
-				svg.appendChild(total);
-			} else {
-				cell.style.opacity = 0.2;
-			}
+			const total = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			total.innerHTML = totalCount?.[r][c] ? totalCount[r][c] : "";
+			total.style.visibility = "var(--total-count-visibility)";
+			total.setAttribute("x", "95%");
+			total.setAttribute("y", "95%");
+			total.setAttribute("font-size", "0.25");
+			total.setAttribute("text-anchor", "end");
+			total.setAttribute("color", "var(--font-secondary)");
+			svg.appendChild(total);
+			if (!totalCount?.[r][c]) cell.style.opacity = 0.2;
 
 			cell.appendChild(svg);
 		}
