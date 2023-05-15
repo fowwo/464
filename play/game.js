@@ -228,7 +228,7 @@ function submitPath() {
 
 	// Update letter counts.
 	const boardElement = document.getElementById("board");
-	const getCell = (r, c) => boardElement.children.item(r * board.length + c);
+	const getCell = (r, c) => boardElement.children.item(r * board[0].length + c);
 	const decrementStartCount = (cell) => {
 		const text = cell.firstElementChild.children.item(1);
 		const value = parseInt(text.innerHTML) - 1;
