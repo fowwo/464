@@ -39,6 +39,8 @@ document.getElementById("puzzle-input").onsubmit = (event) => {
 		}
 	}
 	const boardContainer = createBoard(board, totalCount, startCount);
+	boardContainer.style.setProperty("--total-count-visibility", "visible");
+	boardContainer.style.setProperty("--start-count-visibility", "visible");
 	document.getElementById("board-container").replaceWith(boardContainer);
 
 	document.getElementById("word-count").innerText = `${solution.length} word${solution.length === 1 ? "" : "s"}`;
