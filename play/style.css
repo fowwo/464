@@ -8,6 +8,7 @@ div#progress > div {
 	width: 0%;
 	height: 100%;
 	background-color: var(--accent-color);
+	transition: width cubic-bezier(0.62, 1.86, 0.13, 0.48) 250ms;
 }
 #game { --header-height: 120px; }
 #game > header > span { line-height: 50px; }
