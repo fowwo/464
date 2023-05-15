@@ -212,20 +212,30 @@ function submitPath() {
 	wordElement.style.display = "";
 	const count = parseInt(document.getElementById("word-count").innerText.split(" ")[0]) + 1;
 	const total = parseInt(document.getElementById("word-count").innerText.split(" ")[2]);
-	document.getElementById("word-count").innerText = `${count} / ${total} word${total === 1 ? "" : "s"}`;
 
+	document.getElementById("word-count").innerText = `${count} / ${total} word${total === 1 ? "" : "s"}`;
+	document.querySelector("#progress > div").style.width = `${100 * count / total}%`;
+	document.getElementById("response").innerText = `+${word.length} point${word.length === 1 ? "" : "s"}`;
+
+	// Update remaining word count in word list.
 	const remaining = parseInt(document.getElementById(`remaining-word-count-${word.length}`).innerText.split(" ")[0].slice(1)) - 1;
 	if (remaining) {
 		document.getElementById(`remaining-word-count-${word.length}`).innerText = `+${remaining} word${remaining === 1 ? "" : "s"}`;
 	} else {
 		document.getElementById(`remaining-word-count-${word.length}`).style.display = "none";
 	}
-	document.getElementById("response").innerText = `+${word.length} point${word.length === 1 ? "" : "s"}`;
 
-	document.querySelector("#progress > div").style.width = `${100 * count / total}%`;
+	// Reveal letter count hints.
 	if (count === total) {
-		// All required words found.
+		// 100% - All required words found.
 		document.querySelector("#progress > div").style.backgroundColor = "#0f0";
+	} else if (3 * count >= 2 * total) {
+		// 66% - Reveal letter start counts.
+		document.getElementById("board").style.setProperty("--total-count-visibility", "visible");
+	} else if (3 * count >= total) {
+		// 33% - Reveal letter counts.
+		document.getElementById("board").style.setProperty("--start-count-visibility", "visible");
 	}
+
 	return true;
 }
