@@ -1,7 +1,7 @@
 :root {
-	--accent-color: red;
-	--accent-color-transparent-1: #f002;
-	--accent-color-transparent-2: #f004;
+	--accent-color: #7af;
+	--accent-color-transparent-1: #7af2;
+	--accent-color-transparent-2: #7af4;
 }
 .light {
 	--background-primary: #eee;

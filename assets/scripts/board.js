@@ -213,7 +213,7 @@ export function drawPath(context, path) {
 	context.lineWidth = 30;
 	context.lineCap = "round";
 	context.lineJoin = "round";
-	context.strokeStyle = "#f004";
+	context.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-transparent-2');
 	context.moveTo(x, y);
 	for (const [ r, c ] of path) {
 		const [ x, y ] = toCanvasCoordinates(r, c);
